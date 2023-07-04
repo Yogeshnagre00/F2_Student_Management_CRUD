@@ -1,7 +1,8 @@
+
 const students = [
-    { ID: 1, name: 'Alice', age: 21, grade: '9.2', degree: 'Btech', email: 'alice@example.com' },
-    { ID: 2, name: 'Bob', age: 22, grade: '8.9', degree: 'MBA', email: 'bob@example.com' },
-    { ID: 3, name: 'Charlie', age: 20, grade: '8.8', degree: 'Arts', email: 'charlie@example.com' }
+    { ID: 1, name: 'Alice', age: 21, grade: 'A', degree: 'Btech', email: 'alice@example.com' },
+    { ID: 2, name: 'Bob', age: 22, grade: 'B', degree: 'MBA', email: 'bob@example.com' },
+    { ID: 3, name: 'Charlie', age: 20, grade: 'C', degree: 'Arts', email: 'charlie@example.com' }
   ];
 
   const studentForm = document.getElementById("studentForm");
@@ -17,23 +18,21 @@ const students = [
     event.preventDefault();
 
     const nameInput = document.getElementById("nameInput");
-    const emailInput = document.getElementById("emailInput");
-    const gpaInput = document.getElementById("gpaInput");
     const ageInput = document.getElementById("ageInput");
+    const gradeInput = document.getElementById("gradeInput");
     const degreeInput = document.getElementById("degreeInput");
-
+    const emailInput = document.getElementById("emailInput");
 
     const name = nameInput.value;
-    const email = emailInput.value;
-    const gpa = gpaInput.value;
     const age = parseInt(ageInput.value);
+    const grade = gradeInput.value;
     const degree = degreeInput.value;
-
+    const email = emailInput.value;
 
     if (editMode) {
-      updateStudent(currentStudentId, name, email, age, gpa, degree);
+      updateStudent(currentStudentId, name, age, grade, degree, email);
     } else {
-      addStudent(name, email, gpa, age, degree);
+      addStudent(name, age, grade, degree, email);
     }
 
     studentForm.reset();
@@ -68,10 +67,6 @@ const students = [
       nameCell.innerText = student.name;
       row.appendChild(nameCell);
 
-      const emailCell = document.createElement("td");
-      emailCell.innerText = student.email;
-      row.appendChild(emailCell);
-
       const ageCell = document.createElement("td");
       ageCell.innerText = student.age;
       row.appendChild(ageCell);
@@ -84,18 +79,24 @@ const students = [
       degreeCell.innerText = student.degree;
       row.appendChild(degreeCell);
 
+      const emailCell = document.createElement("td");
+      emailCell.innerText = student.email;
+      row.appendChild(emailCell);
 
       const actionsCell = document.createElement("td");
-      const editButton = document.createElement("button");
 
+      const editButton = document.createElement("button");
+      
       editButton.style.backgroundColor="black";
       editButton.style.border="none"
-
+    
  const img1 = document.createElement("img");
 
+ 
+ img1.src = "./edit .png";
 
- img1.src = "./image/edit.png";
- img1.alt = "Img";
+ 
+ img1.alt = "Image";
 
 
 
@@ -109,11 +110,12 @@ const students = [
          deleteButton.id="imageContainer";
          deleteButton.style.backgroundColor="black";
          deleteButton.style.border="none"
-
+    
     const img = document.createElement("img");
 
-    img.src = "./image/trash.png";
-    img.alt = "Img";
+    img.src = "./delete.png";
+
+    img.alt = "Image";
 
     deleteButton.appendChild(img);
       deleteButton.addEventListener("click", function () {
@@ -127,22 +129,21 @@ const students = [
       studentTableBody.appendChild(row);
     });
   }
-//Add student detail function
-  function addStudent(name, email, grade, age, degree ) {
+//Add student function
+  function addStudent(name, age, grade, degree, email) {
     const newStudent = {
       ID: students.length + 1,
       name: name,
-      email: email,
       age: age,
       grade: grade,
-      degree: degree
-      
+      degree: degree,
+      email: email
     };
 
     students.push(newStudent);
   }
-//edit details of student
-  function updateStudent(studentId, name, email, age, grade, degree) {
+//edit details
+  function updateStudent(studentId, name, age, grade, degree, email) {
     const student = students.find(function (student) {
       return student.ID === studentId;
     });
@@ -155,7 +156,7 @@ const students = [
       student.email = email;
     }
   }
-//delete details of student
+//delete details
   function deleteStudent(studentId) {
     const index = students.findIndex(function (student) {
       return student.ID === studentId;
@@ -165,7 +166,7 @@ const students = [
       students.splice(index, 1);
     }
   }
-// update details fill
+// updit details fill
   function fillFormForEdit(student) {
     const nameInput = document.getElementById("nameInput");
     const ageInput = document.getElementById("ageInput");
@@ -175,11 +176,11 @@ const students = [
 
     nameInput.value = student.name;
     ageInput.value = student.age;
-    gpaInput.value = student.grade;
+    gradeInput.value = student.grade;
     degreeInput.value = student.degree;
     emailInput.value = student.email;
 
-    btn.innerText = "Edit Student";
+    submitButton.innerText = "Edit Student";
     cancelButton.style.display = "inline-block";
     editMode = true;
     currentStudentId = student.ID;
